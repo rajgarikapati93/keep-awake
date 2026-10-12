@@ -1,0 +1,19 @@
+name: Keep apps awake
+on:
+  schedule:
+    - cron: "0 */4 * * *"
+  workflow_dispatch:
+jobs:
+  visit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: |
+          pip install playwright
+          playwright install --with-deps chromium
+      - run: python keep_awake.py
+        env:
+          APP_URLS: "https://rajgarikapati93-finagent.streamlit.app/ https://multi-agent-deep-research-assistant.streamlit.app/ https://rajgarikapati93-rag-chatbot.streamlit.app/"
